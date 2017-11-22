@@ -1,14 +1,19 @@
 # Apache Spark with WASP
 
-WASP is a workload-aware task scheduler and partitioner for in-memory MapReduce framework.
+WASP is a workload-aware task scheduler and partitioner for in-memory MapReduce framework. Our scheduler contains:
+
+- Analytical prediction model for predictioin of spark.default.parallelism and SPARK_WORKER_CORES parameters
+- Runtime monitoring CPU utilization, spill, GCs
+- Scheduler that maxmizes CPU utilization whil minimizing the overhead of data spills and GCs
 
 ## What is WASP
 WASP jointly optimizes Npartitions and Nthreads at runtime, which parameters are defined as:
 
-- Npartitions: how many data partitions are created from a single RDD
-- Nthreads: how many threads are allocated to a single executor
+- Npartitions: how many data partitions are created from a single RDD (spark.default.parallelism)
+- Nthreads: how many threads are allocated to a single executor (SPARK_WORKER_CORES)
 
-Spark often suffers performance degradation with suboptimal Npartitions and Nthreads parameters. Usually, these two parameters are set empirically by users, which yield suboptimal performance due to too high memory pressure or underutilization of concurrency. WASP monitors memory pressure and concurrency at runtime and dynamially tunes the Npartitions and Nthreads, which achieves much faster execution time and high resource utilization.
+Spark often suffers performance degradation with suboptimal Npartitions and Nthreads parameters (e.g. typical guidelines suggest to use 2-3 tasks per CPU core for Nthreads) . Usually, these two parameters are set empirically by users, which yield suboptimal performance due to too high memory pressure or underutilization of concurrency. WASP firstly predicts Npartitions and Nthreads with analystical models. And then, monitors memory pressure and concurrency at runtime and dynamically tunes the Npartitions and Nthreads.
+Thus, WASP achieves much faster execution time and high resource utilization compared to unoptimized Spark.
 
 ## How to Operate?
 * Add 3 options in HiBench (or other configuration file)
