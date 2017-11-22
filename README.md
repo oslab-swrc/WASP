@@ -8,7 +8,7 @@ WASP jointly optimizes Npartitions and Nthreads at runtime, which parameters are
 - Npartitions: how many data partitions are created from a single RDD
 - Nthreads: how many threads are allocated to a single executor
 
-Spark often suffers performance degradation with suboptimal Npartitions and Nthreads parameters. Usually, these two parameters are set empirically by users, which yield suboptimal performance due to giving too high memory pressure or underutilization of concurrency. WASP effectively monitoring memory pressure and concurrency at runtime and dynamially tunes the Npartitions and Nthreads, which yield much faster execution time and high resource utilization.
+Spark often suffers performance degradation with suboptimal Npartitions and Nthreads parameters. Usually, these two parameters are set empirically by users, which yield suboptimal performance due to too high memory pressure or underutilization of concurrency. WASP monitors memory pressure and concurrency at runtime and dynamially tunes the Npartitions and Nthreads, which achieves much faster execution time and high resource utilization.
 
 ## How to Operate?
 * Add 3 options in HiBench (or other configuration file)
