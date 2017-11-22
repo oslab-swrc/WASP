@@ -1,9 +1,16 @@
 # Apache Spark with WASP
 
-a Workload-aware task scheduler and partitioner for in-memory MapReduce framework.
-- GC-aware task scheduler during task execution via runtime monitoring
+WASP is a workload-aware task scheduler and partitioner for in-memory MapReduce framework.
 
-How to Operate?
+## What is WASP
+WASP jointly optimizes Npartitions and Nthreads at runtime, which parameters are defined as:
+
+- Npartitions: how many data partitions are created from a single RDD
+- Nthreads: how many threads are allocated to a single executor
+
+Spark often suffers performance degradation with suboptimal Npartitions and Nthreads parameters. Usually, these two parameters are set empirically by users, which yield suboptimal performance due to giving too high memory pressure or underutilization of concurrency. WASP effectively monitoring memory pressure and concurrency at runtime and dynamially tunes the Npartitions and Nthreads, which yield much faster execution time and high resource utilization.
+
+## How to Operate?
 * Add 3 options in HiBench (or other configuration file)
   - spark.input.size: estimated data size in hadoop (or other DFS)
   - spark.total.executor.number: total number of executors in your cluster
